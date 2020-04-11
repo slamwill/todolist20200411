@@ -27,11 +27,6 @@ class TodoController extends Controller
         $todoList = Todo::paginate(5);
         return response()->json($todoList, 200);
     }
-
-	// public function getListTodo() {
-    //     $todoList = Todo::get()->toArray();
-    //     return response()->json($todoList, 200);
-    // }
     
 	public function createListTodo(Request $request) {
         $this->validate($request,[
@@ -43,16 +38,17 @@ class TodoController extends Controller
         return response($createItem, Response::HTTP_CREATED);
     }
 
-
 	public function updateListTodo(Request $request) {
         $this->validate($request,[
             'id'     =>  'required',
+            'done'     =>  'boolean'
             ]
         );
 
         $updatedItem = Todo::where('id', '=', $request->id)->update([
             'title' => $request->title ? $request->title : 'update title',
-            'content' => $request->content ? $request->content : 'update content'
+            'content' => $request->content ? $request->content : 'update content',
+            'done' => $request->done ? $request->done : false,
         ]);
         
         return response()->json($updatedItem, 200);
