@@ -24,9 +24,14 @@ class TodoController extends Controller
     }
 
 	public function getListTodo() {
-        $todoList = Todo::get()->toArray();
+        $todoList = Todo::paginate(5);
         return response()->json($todoList, 200);
     }
+
+	// public function getListTodo() {
+    //     $todoList = Todo::get()->toArray();
+    //     return response()->json($todoList, 200);
+    // }
     
 	public function createListTodo(Request $request) {
         $this->validate($request,[
